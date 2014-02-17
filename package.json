@@ -5,7 +5,8 @@
   "dependencies" : {
     "sequelize": "",
     "sequelize-postgres":"",
-    "db-migrate":""
+    "db-migrate":"",
+    "require-all":""
   },
   "devDependencies": {
     "mocha": "~1.14.0",

@@ -1,5 +1,10 @@
+var models = require('require-all')({
+  dirname: __dirname + '/models',
+  filter: /(.+)\.js(on)?$/
+})
+
 var Adapter = function(){
-  this.name = 'sequelize';
+  this.models = models;
 }
 
 module.exports = Adapter;

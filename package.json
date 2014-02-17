@@ -1,0 +1,13 @@
+{
+  "name": "ripple-gateway-data-sequelize-adapter",
+  "version": "0.0.1",
+  "dependencies" : {
+    "sequelize": "",
+    "sequelize-postgres":"",
+    "db-migrate":""
+  },
+  "devDependencies": {
+    "mocha": "~1.14.0",
+    "sinon": ""
+  }
+}

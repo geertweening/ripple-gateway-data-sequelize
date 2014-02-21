@@ -1,12 +1,15 @@
 {
   "name": "ripple-gateway-data-sequelize-adapter",
-  "version": "0.0.2",
-  "main": "adapter.js",
+  "version": "0.0.3",
+  "main": "index.js",
   "dependencies" : {
     "sequelize": "",
     "sequelize-postgres":"",
     "db-migrate":"",
-    "require-all":""
+    "require-all":"",
+    "pg": "",
+    "sjcl": "",
+    "bignumber.js":""
   },
   "devDependencies": {
     "mocha": "~1.14.0",

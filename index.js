@@ -87,4 +87,15 @@ Adapter.prototype.updateRipplePayment = function(opts, fn){
   });
 };
 
+Adapter.prototype.getRipplePayment = function(opts, fn){
+  models.ripple_transaction.find(opts.id).complete(fn);
+};
+Adapter.prototype.getRipplePayments = function(opts, fn){
+  if (typeof opts == 'function') {
+    models.ripple_transaction.findAll().complete(fn);
+  } else {
+    models.ripple_transaction.findAll({ where: { id: opts.ids }}).complete(fn);
+  }
+};
+
 module.exports = Adapter;

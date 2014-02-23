@@ -88,8 +88,17 @@ Adapter.prototype.updateRipplePayment = function(opts, fn){
 };
 
 Adapter.prototype.getRipplePayment = function(opts, fn){
-  models.ripple_transaction.find(opts.id).complete(fn);
+  models.ripple_transaction.find(opts.id).complete(function(err, payment){
+    if (err) {
+      fn(err, null);
+    } else if (payment) {
+      fn(null, payment);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
 };
+
 Adapter.prototype.getRipplePayments = function(opts, fn){
   if (typeof opts == 'function') {
     models.ripple_transaction.findAll().complete(fn);
@@ -98,4 +107,18 @@ Adapter.prototype.getRipplePayments = function(opts, fn){
   }
 };
 
+Adapter.prototype.deleteRipplePayment = function(opts, fn){
+  models.ripple_transaction.find(opts.id).complete(function(err, transaction){
+    if (err) {
+      fn(err, null);
+    } else if (transaction) {
+      transaction.destroy().complete(fn);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
+}
+
 module.exports = Adapter;
+
+

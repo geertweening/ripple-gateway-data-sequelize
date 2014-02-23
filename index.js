@@ -142,6 +142,40 @@ Adapter.prototype.createRippleAddress = function(opts, fn){
   }); 
 };
 
+Adapter.prototype.getRippleAddress = function(opts, fn){
+  models.ripple_address.find(opts.id).complete(function(err, ripple_address){
+    if(err){
+      fn(err, null);
+    } else if (ripple_address) {
+      fn(null, ripple_address);
+    } else {
+      fn({ id: 'record not found' }, null);
+    } 
+  });
+};
+
+Adapter.prototype.updateRippleAddress = function(opts, fn){
+  models.ripple_address.find(opts.id).complete(function(err, ripple_address){
+    if (err){
+      fn(err, null);
+    } else if (ripple_address) {
+      delete opts.id;
+      ripple_address.updateAttributes(opts).complete(fn);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });;
+};
+
+Adapter.prototype.deleteRippleAddress = function(opts, fn){
+  models.ripple_address.find(opts.id).complete(function(err, ripple_address){
+    data = ripple_address.toJSON();
+    ripple_address.destroy().complete(function(){
+      fn(null, data);
+    });
+  });
+};
+
 module.exports = Adapter;
 
 

@@ -33,6 +33,17 @@ Adapter.prototype.createExternalAccount = function(opts, fn){
 Adapter.prototype.createRippleTransaction = function(opts, fn){
   var model = models.ripple_transaction.build(opts); 
   var errors = model.validate();
+  if (opts.to_currency) { opts.to_currency = opts.to_currency.toUpperCase() };
+  if (opts.from_currency) { opts.from_currency = opts.from_currency.toUpperCase() };
+  if (opts.to_address_id && opts.from_address_id && (opts.to_address_id == opts.from_address_id)) {
+    var errors = {
+      to_address_id: 'to and from addresses must not be the same',
+      from_address_id: 'to and from addresses must not be the same'
+    }
+    fn (errors, null);
+    return;  
+  }
+  
   if (errors) {
     fn (errors, null);
   } else {

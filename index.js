@@ -67,4 +67,24 @@ Adapter.prototype.createRippleTransaction = function(opts, fn){
   }
 };
 
+Adapter.prototype.updateRipplePayment = function(opts, fn){
+  models.ripple_transaction.find(opts.id).complete(function(err, transaction){
+    if (err) {
+      fn(err, null);
+    } else {
+      var sanitized = {
+        transaction_hash: opts.transaction_hash,
+        transaction_state: opts.transaction_state
+      };
+      transaction.updateAttributes(sanitized).complete(function(err, transaction){
+        if (err) {
+          fn(err, null);
+        } else {
+          fn(null, transaction);
+        }
+      });
+    }
+  });
+};
+
 module.exports = Adapter;

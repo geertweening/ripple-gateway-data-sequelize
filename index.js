@@ -119,6 +119,29 @@ Adapter.prototype.deleteRipplePayment = function(opts, fn){
   });
 }
 
+Adapter.prototype.createRippleAddress = function(opts, fn){
+  var model = models.ripple_address.build(opts);
+  var errors = model.validate();
+
+  if (errors) {
+    fn(errors, null);
+    return;
+  }
+
+  if (opts.type == 'hosted' && !opts.tag) {
+    fn({ tag: 'hosted requires a tag' }, null);
+    return;
+  }
+
+  model.save().complete(function(err, ripple_address){
+    if (err) {
+      fn(err, null);
+    } else {
+      fn(null, ripple_address);
+    }
+  }); 
+};
+
 module.exports = Adapter;
 
 

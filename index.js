@@ -226,6 +226,55 @@ Adapter.prototype.createExternalTransaction = function(opts, fn){
     }
   });
 };
+Adapter.prototype.getExternalTransaction = function(opts, fn){
+  models.external_transaction.find(opts.id).complete(function(err, external_transaction){
+    if (err){
+      fn(err, null);
+    } else if (external_transaction){
+      fn(null, external_transaction);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
+};
+
+Adapter.prototype.updateExternalTransaction = function(opts, fn){
+  models.external_transaction.find(opts.id).complete(function(err, external_transaction){
+    if (err){
+      fn(err, null);
+    } else if (external_transaction) {
+      delete opts.id;
+      external_transaction.updateAttributes(opts).complete(fn);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
+
+};
+
+Adapter.prototype.deleteExternalTransaction = function(opts, fn){
+  models.external_transaction.find(opts.id).complete(function(err, external_transaction){
+    external_transaction.destroy().complete(function(err, data){
+      fn(null, data);
+    });
+  });
+};
+
+Adapter.prototype.getPendingWithdrawals = function(opts, fn){
+  var query = {
+    status: 'pending',
+    deposit: false,
+    external_account_id: opts.external_account_id
+  }; 
+  models.external_transaction.findAll({ where: query }).complete(function(err, pending_withdrawals){
+    if(err) {
+      fn(err, null);
+    } else {
+      fn(null, pending_withdrawals || []);
+    }
+  });
+
+};
 
 module.exports = Adapter;
 

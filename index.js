@@ -176,7 +176,7 @@ Adapter.prototype.deleteRippleAddress = function(opts, fn){
   });
 };
 
-Adapter.prototype.getExternalAcccount = function(opts, fn){
+Adapter.prototype.getExternalAccount = function(opts, fn){
   models.external_account.find(opts.id).complete(function(err, external_account){
     if (err){
       fn(err, null);
@@ -188,8 +188,8 @@ Adapter.prototype.getExternalAcccount = function(opts, fn){
   });
 };
 
-Adapter.prototype.updateExternalAccount - function(opts, fn){
-  models.external_account.find(opts.id).complete(function(err, ripple_address){
+Adapter.prototype.updateExternalAccount = function(opts, fn){
+  models.external_account.find(opts.id).complete(function(err, external_account){
     if (err){
       fn(err, null);
     } else if (external_account) {
@@ -202,8 +202,7 @@ Adapter.prototype.updateExternalAccount - function(opts, fn){
 
 };
 
-/*
-Adapter.prototype.deleteExternalAccount - function(opts, fn){
+Adapter.prototype.deleteExternalAccount = function(opts, fn){
   models.external_account.find(opts.id).complete(function(err, external_account){
     data = external_account.toJSON();
     external_account.destroy().complete(function(){
@@ -211,7 +210,6 @@ Adapter.prototype.deleteExternalAccount - function(opts, fn){
     });
   });
 };
-*/
 
 module.exports = Adapter;
 

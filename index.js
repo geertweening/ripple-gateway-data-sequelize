@@ -211,6 +211,22 @@ Adapter.prototype.deleteExternalAccount = function(opts, fn){
   });
 };
 
+Adapter.prototype.createExternalTransaction = function(opts, fn){
+  var external_transaction = models.external_transaction.build(opts);
+  var errors = external_transaction.validate(); 
+  if (errors){
+    fn(errors, null);
+    return;
+  }
+  external_transaction.save().complete(function(err, external_transaction){
+    if (err){
+      fn(err, null);
+    } else {
+      fn(null, external_transaction);
+    }
+  });
+};
+
 module.exports = Adapter;
 
 

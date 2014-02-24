@@ -176,6 +176,43 @@ Adapter.prototype.deleteRippleAddress = function(opts, fn){
   });
 };
 
+Adapter.prototype.getExternalAcccount = function(opts, fn){
+  models.external_account.find(opts.id).complete(function(err, external_account){
+    if (err){
+      fn(err, null);
+    } else if (external_account){
+      fn(null, external_account);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
+};
+
+Adapter.prototype.updateExternalAccount - function(opts, fn){
+  models.external_account.find(opts.id).complete(function(err, ripple_address){
+    if (err){
+      fn(err, null);
+    } else if (external_account) {
+      delete opts.id;
+      external_account.updateAttributes(opts).complete(fn);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
+
+};
+
+/*
+Adapter.prototype.deleteExternalAccount - function(opts, fn){
+  models.external_account.find(opts.id).complete(function(err, external_account){
+    data = external_account.toJSON();
+    external_account.destroy().complete(function(){
+      fn(null, data);
+    });
+  });
+};
+*/
+
 module.exports = Adapter;
 
 

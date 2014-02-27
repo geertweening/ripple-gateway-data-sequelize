@@ -1,3 +1,5 @@
+var sequelize = require('./lib/sequelize.js');
+
 var models = require('require-all')({
   dirname: __dirname + '/lib/models',
   filter: /(.+)\.js(on)?$/
@@ -6,6 +8,7 @@ var models = require('require-all')({
 var Adapter = function(){
   this.models = models;
   this.errors = null;
+  this.sequelize = sequelize;
 }
 
 Adapter.prototype.createExternalAccount = function(opts, fn){

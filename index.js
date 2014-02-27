@@ -188,6 +188,18 @@ Adapter.prototype.getExternalAccount = function(opts, fn){
   });
 };
 
+Adapter.prototype.getExternalAccounts = function(opts, fn){
+  models.external_account.findAll({ where: opts }).complete(function(err, external_accounts){
+    if (err){
+      fn(err, null);
+    } else if (external_accounts){
+      fn(null, external_accounts);
+    } else {
+      fn({ id: 'record not found' }, null);
+    }
+  });
+};
+
 Adapter.prototype.updateExternalAccount = function(opts, fn){
   models.external_account.find(opts.id).complete(function(err, external_account){
     if (err){

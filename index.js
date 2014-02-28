@@ -34,7 +34,7 @@ Adapter.prototype.createExternalAccount = function(opts, fn){
 };
 
 function fillSimplePayment(simple) {
-  full = simple;
+  var full = simple;
   full.from_amount = full.from_amount || full.to_amount;
   full.from_currency = full.from_currency || full.to_currency;
   full.from_issuer = full.from_issuer || full.to_issuer;
@@ -172,7 +172,7 @@ Adapter.prototype.updateRippleAddress = function(opts, fn){
 
 Adapter.prototype.deleteRippleAddress = function(opts, fn){
   models.ripple_address.find(opts.id).complete(function(err, ripple_address){
-    data = ripple_address.toJSON();
+    var data = ripple_address.toJSON();
     ripple_address.destroy().complete(function(){
       fn(null, data);
     });
@@ -219,7 +219,7 @@ Adapter.prototype.updateExternalAccount = function(opts, fn){
 
 Adapter.prototype.deleteExternalAccount = function(opts, fn){
   models.external_account.find(opts.id).complete(function(err, external_account){
-    data = external_account.toJSON();
+    var data = external_account.toJSON();
     external_account.destroy().complete(function(){
       fn(null, data);
     });

@@ -52,6 +52,28 @@ API.createUser = function(opts, fn) {
   });
 };
 
+API.getUser = function(opts, fn) {
+  models.user.find({where: opts}).then(function(user) {
+    fn(null, user);
+  }, function(err) {
+    fn(err, null);
+  });
+}
+
+API.updateUser = function(selectOpts, updateOpts, fn) {
+  API.getUser(selectOpts, function(err, user) {
+    if (err) {
+      fn(err, null);
+    } else {
+      user.updateAttributes(updateOpts).then(function(user) {
+        fn(null, user);
+      }), function(err) {
+        fn(err, null);
+      }
+    }
+  });
+}
+
 API.createExternalAccount = function(opts, fn){
   var model = models.external_account.build(opts);
   var errors = model.validate();

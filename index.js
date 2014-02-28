@@ -74,7 +74,7 @@ API.createExternalAccount = function(opts, fn){
 
 };
 
-Adapter.prototype.createRippleTransaction = function(opts, fn){
+API.createRippleTransaction = function(opts, fn){
   opts = fillSimplePayment(opts);
   var model = models.ripple_transaction.build(opts); 
   

@@ -74,7 +74,7 @@ API.createExternalAccount = function(opts, fn){
 
 };
 
-API.createRippleTransaction = function(opts, fn){
+Adapter.prototype.createRippleTransaction = function(opts, fn){
   opts = fillSimplePayment(opts);
   var model = models.ripple_transaction.build(opts); 
   
@@ -205,7 +205,7 @@ API.updateRippleAddress = function(opts, fn){
 
 API.deleteRippleAddress = function(opts, fn){
   models.ripple_address.find(opts.id).complete(function(err, ripple_address){
-    data = ripple_address.toJSON();
+    var data = ripple_address.toJSON();
     ripple_address.destroy().complete(function(){
       fn(null, data);
     });
@@ -252,7 +252,7 @@ API.updateExternalAccount = function(opts, fn){
 
 API.deleteExternalAccount = function(opts, fn){
   models.external_account.find(opts.id).complete(function(err, external_account){
-    data = external_account.toJSON();
+    var data = external_account.toJSON();
     external_account.destroy().complete(function(){
       fn(null, data);
     });

@@ -75,6 +75,13 @@ API.createExternalAccount = function(opts, fn){
 };
 
 API.createRippleTransaction = function(opts, fn){
+  function fillSimplePayment(simple) {
+    full = simple;
+    full.from_amount = full.from_amount || full.to_amount;
+    full.from_currency = full.from_currency || full.to_currency;
+    full.from_issuer = full.from_issuer || full.to_issuer;
+    return full;
+  }
   opts = fillSimplePayment(opts);
   var model = models.ripple_transaction.build(opts); 
   

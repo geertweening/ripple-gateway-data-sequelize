@@ -1,7 +1,8 @@
 var sequelize = require('./lib/sequelize.js');
-var crypto = require('crypto');
+var crypto    = require('crypto');
+var pgHstore  = require('pg-hstore');
 
-var models = require('require-all')({
+var models    = require('require-all')({
   dirname: __dirname + '/lib/models',
   filter: /(.+)\.js(on)?$/
 })
@@ -54,7 +55,16 @@ API.createUser = function(opts, fn) {
 
 API.getUser = function(opts, fn) {
   models.user.find({where: opts}).then(function(user) {
-    fn(null, user);
+
+    if (user.data) {
+      // if there's hstore data, parse it before returning
+      pgHstore.parse(user.data, function(result) {
+        user.data = result;
+        fn(null, user);
+      });
+    } else {
+      fn(null, user);
+    }
   }, function(err) {
     fn(err, null);
   });

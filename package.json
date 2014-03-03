@@ -11,10 +11,11 @@
     "sjcl": "",
     "bignumber.js": "",
     "ripple-wallet": "",
-    "async": ""
+    "async": "",
+    "pg-hstore": ""
   },
   "devDependencies": {
-    "mocha": "~1.14.0",
+    "mocha": "",
     "sinon": ""
   }
 }

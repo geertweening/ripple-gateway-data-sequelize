@@ -71,10 +71,19 @@ API.getUser = function(opts, fn) {
 }
 
 API.updateUser = function(selectOpts, updateOpts, fn) {
+
   API.getUser(selectOpts, function(err, user) {
     if (err) {
       fn(err, null);
     } else {
+
+      if (user.data && updateOpts.data) {
+        for (var key in updateOpts.data) {
+          user.data[key] = updateOpts.data[key];
+        }
+        updateOpts.data = user.data;
+      }
+
       user.updateAttributes(updateOpts).then(function(user) {
         fn(null, user);
       }), function(err) {

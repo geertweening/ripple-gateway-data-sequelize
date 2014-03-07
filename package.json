@@ -11,8 +11,7 @@
     "sjcl": "",
     "bignumber.js": "",
     "ripple-wallet": "",
-    "async": "",
-    "pg-hstore": ""
+    "async": ""
   },
   "devDependencies": {
     "mocha": "",

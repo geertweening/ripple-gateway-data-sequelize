@@ -14,26 +14,12 @@ exports.up = function(db, callback) {
     kyc_id: { type: 'int' },
     createdAt: { type: 'datetime', notNull: true },
     updatedAt: { type: 'datetime' },
-    external_id: { type: 'string' }
+    external_id: { type: 'string' },
+    data: {type: 'string'}
   }, callback);
 
-  db.runSql('CREATE EXTENSION hstore', function(err) {
-    if (err) {
-        console.error(err);
-    } else {
-        db.runSql('ALTER TABLE users ADD data HSTORE', function(err) {
-            err ? console.error(err) : console.log("hstore added");
-        });
-    }
-  })
 };
 
 exports.down = function(db, callback) {
   db.dropTable('users', callback);
-  db.runSql('DROP EXTENSION hstore', function(err) {
-    if (err) {
-        console.error(err);
-    }
-  });
-
 };

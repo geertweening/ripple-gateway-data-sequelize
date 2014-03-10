@@ -1,6 +1,5 @@
 var sequelize = require('./lib/sequelize.js');
 var crypto    = require('crypto');
-var pgHstore  = require('pg-hstore');
 
 var models    = require('require-all')({
   dirname: __dirname + '/lib/models',
@@ -34,6 +33,10 @@ API.createUser = function(opts, fn) {
     fn({ name: 'cannot be admin' }, null); return false;
   }
 
+  if (opts.data) {
+    opts.data = JSON.stringify(opts.data);
+  }
+
   opts.salt = generateSalt();
   opts.password_hash = saltPassword(opts.password, opts.salt);
   
@@ -48,6 +51,9 @@ API.createUser = function(opts, fn) {
     if (err) {
       fn(err, null);
     } else {
+      if (user.data) {
+        user.data = JSON.parse(user.data);
+      }
       fn(null, user);
     }
   });
@@ -57,14 +63,10 @@ API.getUser = function(opts, fn) {
   models.user.find({where: opts}).then(function(user) {
 
     if (user.data) {
-      // if there's hstore data, parse it before returning
-      pgHstore.parse(user.data, function(result) {
-        user.data = result;
-        fn(null, user);
-      });
-    } else {
-      fn(null, user);
+      user.data = JSON.parse(user.data);
     }
+    fn(null, user);
+
   }, function(err) {
     fn(err, null);
   });
@@ -84,10 +86,22 @@ API.updateUser = function(selectOpts, updateOpts, fn) {
         updateOpts.data = user.data;
       }
 
-      user.updateAttributes(updateOpts).then(function(user) {
-        fn(null, user);
-      }), function(err) {
-        fn(err, null);
+      var update = function(updateOpts) {
+        user.updateAttributes(updateOpts).then(function(user) {
+          if (user.data) {
+            user.data = JSON.parse(user.data);
+          }
+          fn(null, user);
+        }), function(err) {
+          fn(err, null);
+        }
+      }
+
+      if (updateOpts.data) {
+        updateOpts.data = JSON.stringify(updateOpts.data);
+        update(updateOpts);
+      } else {
+        update(updateOpts);      
       }
     }
   });

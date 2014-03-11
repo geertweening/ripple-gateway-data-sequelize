@@ -11,13 +11,20 @@ var API = function() {
 // create instance of the API
 var instance = new API();
 
-// decorate the api with functionality
-externalAccounts(instance);
-externalTransactions(instance);
-rippleAddresses(instance);
-rippleTransactions(instance);
-users(instance);
+// decorate the api instance by controller on the defined property
+// e.g. the user controller will decorate the instance on the 'users' property
+// -> api.users.creat
+var bind = function(controller, property) {
+	instance[property] = {};
+	controller(instance[property]);
+}
 
-// since other users can extend functionality of the API object
-// with prototype extensions
+bind(externalAccounts, 'externalAccounts');
+bind(externalTransactions, 'externalTransactions');
+bind(rippleAddresses, 'rippleAddresses');
+bind(rippleTransactions, 'rippleTransactions');
+bind(users, 'users');
+
+// export a singleton
+// module.exports caches it's value, which is the api instance in our case
 module.exports = instance;

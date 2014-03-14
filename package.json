@@ -1,6 +1,6 @@
 {
   "name": "ripple-gateway-data-sequelize-adapter",
-  "version": "0.4.4",
+  "version": "0.5.0",
   "main": "index.js",
   "dependencies": {
     "sequelize": "",

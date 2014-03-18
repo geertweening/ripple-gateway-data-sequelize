@@ -7,7 +7,7 @@ exports.up = function(db, callback) {
 
     transaction_client_id:  { type: 'string', unique: true },
     transaction_state:      { type: 'string', notNull: true },
-    transaction_hash:       { type: 'string', unique: true },
+    transaction_hash:       { type: 'string' },
 
     from_address:           { type: 'string', notNull: true },
     from_amount:            { type: 'decimal', notNull: true },

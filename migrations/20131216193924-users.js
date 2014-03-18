@@ -6,7 +6,6 @@ exports.up = function(db, callback) {
   	id:             { type: 'int', primaryKey: true, autoIncrement: true },
     name:           { type: 'string', notNull: true, unique: true },
     salt:           { type: 'string', notNull: true },
-    admin:          { type: 'boolean', default: false },
     password_hash:  { type: 'string', notNull: true },
     kyc_id:         { type: 'int' },
     createdAt:      { type: 'datetime', notNull: true },

@@ -1,7 +1,7 @@
 var dbm = require('db-migrate');
 var type = dbm.dataType;
 
-exports.up = function(db, callback) {
+exports.up = function(db, done) {
   db.createTable('ripple_transactions', { 
 		id:                     { type: 'int', primaryKey: true, autoIncrement: true },
 
@@ -31,7 +31,24 @@ exports.up = function(db, callback) {
     updatedAt:              { type: 'datetime' },
 
     message:                { type: 'string' }
-  }, callback);
+  }, partnerTransactionIdIndex);
+
+  function partnerTransactionIdIndex(err) {
+    if (err) {
+      callback(err);
+      return;
+    }
+
+    db.addIndex(
+      'ripple_transactions', 
+      'partner_transaction_id_index', 
+      ['partner_transaction_id'], 
+      true,
+      done
+    );
+
+  }
+
 };
 
 exports.down = function(db, callback) {

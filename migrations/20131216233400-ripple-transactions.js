@@ -5,6 +5,10 @@ exports.up = function(db, callback) {
   db.createTable('ripple_transactions', { 
 		id:                     { type: 'int', primaryKey: true, autoIncrement: true },
 
+    user_id:                { type: 'int' },
+
+    partner_transaction_id: { type: 'string', notNull: true },
+
     transaction_client_id:  { type: 'string', unique: true },
     transaction_state:      { type: 'string', notNull: true },
     transaction_hash:       { type: 'string' },
@@ -20,6 +24,8 @@ exports.up = function(db, callback) {
     to_issuer:              { type: 'string', notNull: true },
 
     destination_tag:        { type: 'string' },
+
+    payment_json:           { type: 'string' },
 
     createdAt:              { type: 'datetime', notNull: true },
     updatedAt:              { type: 'datetime' },
